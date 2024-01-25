@@ -14,7 +14,7 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v2'
 
-      - name:  'Automated Version Bump'
+      - name:  'Version Bump'
         uses:  'phips28/gh-action-bump-version@master'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -23,10 +23,5 @@ jobs:
           major-wording:  'release'
           minor-wording:  'feature,feat,add,new'
           
-      - name: 'Automated Release'
-        uses: 'actions/created-release@v1'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.version_bump.outputs.newTag }}
-          release_name: ${{ steps.version_bump.outputs.newTag }}
+      - name: 'Release'
+        uses: 'softprops/action-gh-release@v1'
