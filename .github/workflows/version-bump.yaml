@@ -6,26 +6,27 @@ on:
 
 jobs:
   version-bump:
-    name:  'Version Bump'
+    name:  Version Bump
     runs-on: ubuntu-latest
     permissions:
       contents:  write
     steps:
-      - name: 'Checkout'
-        uses: 'actions/checkout@v2'
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name:  'Version Bump'
-        uses:  'phips28/gh-action-bump-version@master'
+      - name:  Version Bump
+        uses:  phips28/gh-action-bump-version@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag-prefix: 'v'
-          major-wording:  'release'
-          minor-wording:  'feature,feat,add,new'
-          
-      - name: 'Release'
-        uses: 'softprops/action-gh-release@v1'
+          tag-prefix: v
+          major-wording:  release
+          minor-wording:  feature,feat,add,new
+
+      - name: Release
+        uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.version_bump.outputs.newTag }}
+          tag: ${{ steps.version_bump.outputs.newTag }}
+          name: Release ${{ steps.version_bump.outputs.newTag}}
