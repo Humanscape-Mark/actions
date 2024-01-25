@@ -27,4 +27,4 @@ jobs:
         with:
           tag: ${{ steps.version_bump.outputs.newTag }}
           name: Release ${{ steps.version_bump.outputs.newTag}}
-          generate_release_notes: true
+          generateReleaseNotes: true
