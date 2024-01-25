@@ -25,3 +25,5 @@ jobs:
           
       - name: 'Release'
         uses: 'softprops/action-gh-release@v1'
+        with:
+          tag_name: ${{ steps.version_bump.outputs.newTag }}
