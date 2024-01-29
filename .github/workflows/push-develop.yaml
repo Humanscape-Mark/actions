@@ -1,0 +1,16 @@
+name: Pushed to develop
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  version-bump:
+    uses: ./.github/workflows/version-bump.yaml
+
+  deploy:
+    needs: version-bump
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to develop"
