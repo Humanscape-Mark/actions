@@ -20,5 +20,5 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying to develop"
+      - run: echo "Deploying to production"
         

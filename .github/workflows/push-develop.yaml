@@ -7,9 +7,19 @@ on:
 
 jobs:
   version-bump:
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
-    uses: ./.github/workflows/template/version-bump.yaml
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Version Bump
+        uses:  phips28/gh-action-bump-version@master
+        with:
+          tag-prefix: v
+          major-wording: release
+          minor-wording: feature,feat,add,new
 
   deploy:
     needs: version-bump
