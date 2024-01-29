@@ -23,15 +23,16 @@ jobs:
           echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
           echo "RUNNER_ARCH: $RUNNER_ARCH"
           echo "RUNNER_NAME: $RUNNER_NAME"
-          echo "RUNNER_OS: $RUNNER_OS"     
+          echo "RUNNER_OS: $RUNNER_OS"
           latest_release=${{ github.event.repository.tags_url }}
           echo "Latest Release: $latest_release"
+          echo "URL: ${{ github.event.repository.url }}"
           echo "-----------------------------------------"
 
       - name: Get lastest version
         id: get_lastest_version
         run: |
-          latest_release=$(gh release view {owner}/{repo} --json tagName -q '.tagName') >> $GITHUB_OUTPUT
+          latest_release=$(gh release view ${{ github.event.repository.url }} --json tagName -q '.tagName') >> $GITHUB_OUTPUT
           echo "Latest Release: $latest_release"
       - uses: ncipollo/release-action@v1
         with:
