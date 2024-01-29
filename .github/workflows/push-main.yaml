@@ -1,0 +1,28 @@
+name: Pushed to main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version-bump:
+    uses: ./.github/workflows/version-bump.yaml
+
+  release:
+    needs: version-bump
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ needs.version-bump.outputs.version }}
+          name: Release ${{ needs.version-bump.outputs.version }}
+          generateReleaseNotes: true  
+  
+  deploy:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to develop"
+        
