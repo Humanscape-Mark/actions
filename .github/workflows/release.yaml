@@ -13,34 +13,16 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Test
-        run: |
-          echo "Printing Environment Variables:"
-          echo "-----------------------------------------"
-          echo "GITHUB_REF: $GITHUB_REF"
-          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "GITHUB_REF_PROTECTED: $GITHUB_REF_PROTECTED"
-          echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
-          echo "RUNNER_ARCH: $RUNNER_ARCH"
-          echo "RUNNER_NAME: $RUNNER_NAME"
-          echo "RUNNER_OS: $RUNNER_OS"
-          latest_release=${{ github.event.repository.tags_url }}
-          echo "Latest Release: $latest_release"
-          echo "URL: ${{ github.event.repository.url }}"
-          echo "-----------------------------------------"
+
       - name: Get Latest Tag
-        id: latest_tag
+        id: get_latest_tag
         run: |
           latest_tag=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r 'sort_by(.commit.committer.date) | .[0].name')
           latest_tag=${latest_tag#refs/tags/}
-          echo "Latest Tag: $latest_tag"
-      - name: Get lastest version
-        id: get_lastest_version
-        run: |
-          echo "latest_release=$(gh release view --repo ${{ github.event.repository.url }} --json tagName -q '.tagName')" >> $GITHUB_OUTPUT
-          echo "Latest Release: $latest_release"
+          echo "latest_version=$latest_tag" >> $GITHUB_OUTPUT
+
       - uses: ncipollo/release-action@v1
         with:
           generateReleaseNotes: true  
-          tag: ${{ steps.get_lastest_version.outputs.latest_release }}
-          name: ${{ steps.get_lastest_version.outputs.latest_release }}
+          tag: ${{ steps.get_latest_tag.outputs.latest_release }}
+          name: ${{ steps.get_latest_tag.outputs.latest_release }}
