@@ -9,7 +9,7 @@ jobs:
   version-bump:
     permissions:
       contents: write
-    uses: ./.github/workflows/version-bump.yaml
+    uses: ./.github/workflows/template/version-bump.yaml
 
   deploy:
     needs: version-bump
