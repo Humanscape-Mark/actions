@@ -1,0 +1,43 @@
+name: Input test
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+      us:
+        type: boolean
+        default: false
+      id:
+        type: boolean
+        default: false
+      vn:
+        type: boolean
+        default: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "US: ${{ inputs.us }}"
+          echo "ID: ${{ inputs.id }}"
+          echo "VN: ${{ inputs.vn }}"
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
+    steps:
+      - run: |
+          echo "Project: ${{ matrix.project }}"
+          echo "Config: ${{ matrix.config }}"  
