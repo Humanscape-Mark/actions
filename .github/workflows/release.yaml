@@ -28,7 +28,12 @@ jobs:
           echo "Latest Release: $latest_release"
           echo "URL: ${{ github.event.repository.url }}"
           echo "-----------------------------------------"
-
+      - name: Get Latest Tag
+        id: latest_tag
+        run: |
+          latest_tag=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/git/refs/tags" | jq -r '.[0].ref')
+          latest_tag=${latest_tag#refs/tags/}
+          echo "Latest Tag: $latest_tag"
       - name: Get lastest version
         id: get_lastest_version
         run: |
