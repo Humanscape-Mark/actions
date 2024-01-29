@@ -31,7 +31,7 @@ jobs:
       - name: Get lastest version
         id: get_lastest_version
         run: |
-          latest_release=$(gh release view {owner}/{repo} --json tag_name -q '.tag_name') >> $GITHUB_OUTPUT
+          latest_release=$(gh release view {owner}/{repo} --json tagName -q '.tagName') >> $GITHUB_OUTPUT
           echo "Latest Release: $latest_release"
       - uses: ncipollo/release-action@v1
         with:
