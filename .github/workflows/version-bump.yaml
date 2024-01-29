@@ -1,5 +1,3 @@
-name: Version Bump
-
 on:
   push:
     branches: [ "main" ]
