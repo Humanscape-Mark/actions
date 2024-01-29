@@ -6,13 +6,7 @@ on:
       - main
 
 jobs:
-  version-bump:
-    permissions:
-      contents: write
-    uses: ./.github/workflows/version-bump.yaml
-
   release:
-    needs: version-bump
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,8 +14,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
         with:
-          tag: ${{ needs.version-bump.outputs.version }}
-          name: Release ${{ needs.version-bump.outputs.version }}
           generateReleaseNotes: true  
   
   deploy:
