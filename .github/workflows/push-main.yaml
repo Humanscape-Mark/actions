@@ -7,11 +7,15 @@ on:
 
 jobs:
   version-bump:
+    permissions:
+      contents: write
     uses: ./.github/workflows/version-bump.yaml
 
   release:
     needs: version-bump
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
