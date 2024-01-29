@@ -12,6 +12,18 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      - name: Test
+        run: |
+          echo "Printing Environment Variables:"
+          echo "-----------------------------------------"
+          echo "GITHUB_REF: $env:GITHUB_REF"
+          echo "GITHUB_REF_NAME: $env:GITHUB_REF_NAME"
+          echo "GITHUB_REF_PROTECTED: $env:GITHUB_REF_PROTECTED"
+          echo "GITHUB_REF_TYPE: $env:GITHUB_REF_TYPE"
+          echo "RUNNER_ARCH: $env:RUNNER_ARCH"
+          echo "RUNNER_NAME: $env:RUNNER_NAME"
+          echo "RUNNER_OS: $env:RUNNER_OS"     
+          echo "-----------------------------------------"
       - uses: ncipollo/release-action@v1
         with:
           generateReleaseNotes: true  
@@ -20,5 +32,5 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying to production"
+      - run: echo "Deploying to develop"
         
