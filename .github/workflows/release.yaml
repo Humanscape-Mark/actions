@@ -31,7 +31,7 @@ jobs:
       - name: Get Latest Tag
         id: latest_tag
         run: |
-          latest_tag=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/git/refs/tags" | jq -r '.[0].ref')
+          latest_tag=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r 'sort_by(.commit.committer.date) | reverse | .[0].name')
           latest_tag=${latest_tag#refs/tags/}
           echo "Latest Tag: $latest_tag"
       - name: Get lastest version
