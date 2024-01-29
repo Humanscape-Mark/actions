@@ -17,9 +17,6 @@ on:
         required: true
 
 jobs:
-  version-bump:
-    uses: ./.github/workflows/version-bump.yaml
-
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
