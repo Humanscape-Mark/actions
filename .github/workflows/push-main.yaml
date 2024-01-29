@@ -7,7 +7,9 @@ on:
 
 jobs:
   release:
-      uses: ./.github/workflows/release.yaml
+    permissions:
+      contents: write
+    uses: ./.github/workflows/release.yaml
 
   deploy:
     needs: release

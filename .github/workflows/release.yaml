@@ -24,6 +24,7 @@ jobs:
           latest_release=${{ github.event.repository.tags_url }}
           echo "Latest Release: $latest_release"
           echo "-----------------------------------------"
+
       - name: Get lastest version
         id: get_lastest_version
         run: |
