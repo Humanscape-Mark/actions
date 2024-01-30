@@ -35,7 +35,7 @@ jobs:
   version-bump:
     runs-on: ubuntu-22.04
     needs: check-merged
-    if : ${{ needs.check-merged.outputs.merged }}
+    if : ${{ needs.check-merged.outputs.merged == 'true'}}
     permissions:
       contents: write
     steps:
