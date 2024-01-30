@@ -34,7 +34,7 @@ jobs:
 
       - name: Debug
         if: ${{ steps.set-output.outputs.merged == 'false' }}
-        run: echo "::debug::PR not merged"
+        run: echo "::warning::PR not merged"
 
   version-bump:
     runs-on: ubuntu-22.04
