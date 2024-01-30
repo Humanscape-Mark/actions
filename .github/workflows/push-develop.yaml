@@ -17,7 +17,7 @@ jobs:
 
       - name: Check if merged
         id: check-if-merged
-        uses: actions/github-script@v4
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
