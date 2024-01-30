@@ -30,7 +30,7 @@ jobs:
 
       - name: Set output
         id: set-output
-        run: echo "::set-output name=merged::${{ steps.check-if-merged.outputs.result }}"
+        run: echo "merged=${{ steps.check-if-merged.outputs.result }}" >> $GITHUB_OUTPUT
 
   version-bump:
     runs-on: ubuntu-22.04
@@ -53,4 +53,4 @@ jobs:
     needs: version-bump
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying to develop"
+      - run: echo "::debug::Deploying to develop"
