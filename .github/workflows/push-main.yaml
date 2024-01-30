@@ -7,18 +7,13 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
     permissions:
       contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ncipollo/release-action@v1
-        with:
-          generateReleaseNotes: true  
-  
+    uses: ./.github/workflows/release.yaml
+
   deploy:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying to production"
+      - run: echo "Deploying to develop"
         

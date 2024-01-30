@@ -1,0 +1,61 @@
+name: Input test
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+      us:
+        type: boolean
+        default: false
+      id:
+        type: boolean
+        default: false
+      vn:
+        type: boolean
+        default: false
+      COUNTRY_CODE:
+        type: choice
+        description: 'Deploy country'
+        required: true
+        options:
+          - id
+          - vn
+          - us
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo "Environment: ${{ inputs.environment }}"
+          echo "US: ${{ inputs.us }}"
+          echo "ID: ${{ inputs.id }}"
+          echo "VN: ${{ inputs.vn }}"
+
+  mat-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        country_code: ${{ inputs.COUNTRY_CODE }}
+    steps:
+      - run: |
+          echo "COUNTRY_CODE: ${{ matrix.COUNTRY_CODE }}"
+
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
+    steps:
+      - run: |
+          echo "Project: ${{ matrix.project }}"
+          echo "Config: ${{ matrix.config }}"  
