@@ -32,6 +32,10 @@ jobs:
         id: set-output
         run: echo "merged=${{ steps.check-if-merged.outputs.result }}" >> $GITHUB_OUTPUT
 
+      - name: Debug
+        if: ${{ steps.set-output.outputs.merged == 'false' }}
+        run: echo "::debug::PR not merged"
+
   version-bump:
     runs-on: ubuntu-22.04
     needs: check-merged
