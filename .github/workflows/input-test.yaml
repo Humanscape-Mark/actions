@@ -14,6 +14,14 @@ on:
       vn:
         type: boolean
         default: false
+      COUNTRY_CODE:
+        type: choice
+        description: 'Deploy country'
+        required: true
+        options:
+          - id
+          - vn
+          - us
 
 jobs:
   test:
@@ -25,6 +33,16 @@ jobs:
           echo "US: ${{ inputs.us }}"
           echo "ID: ${{ inputs.id }}"
           echo "VN: ${{ inputs.vn }}"
+
+  mat-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        country_code: ${{ inputs.COUNTRY_CODE }}
+    steps:
+      - run: |
+          echo "COUNTRY_CODE: ${{ matrix.COUNTRY_CODE }}"
+
   job1:
     runs-on: ubuntu-latest
     outputs:
@@ -36,7 +54,7 @@ jobs:
     needs: job1
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.job1.outputs.matrix) }}
     steps:
       - run: |
           echo "Project: ${{ matrix.project }}"
