@@ -63,6 +63,7 @@ jobs:
           tag-prefix: v
           major-wording: release
           minor-wording: feature,feat,add,new
+          target-branch: develop
 
   deploy:
     needs: version-bump
