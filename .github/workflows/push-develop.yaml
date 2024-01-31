@@ -20,13 +20,13 @@ jobs:
           echo "PR: ${{ github.event.pull_request }}"
       
       - name: run isPR
-        if: github.event.pull_request
+        if: ${{ github.event != 'push' }}
         run: |
           echo "This is a PR"
           echo "PR: ${{ github.event.pull_request }}"
       
       - name: run isPush
-        if: github.event == 'push'
+        if: ${{ github.event == 'push' }}
         run: |
           echo "This is a push"
           echo "Branch: ${{ github.ref }}"
