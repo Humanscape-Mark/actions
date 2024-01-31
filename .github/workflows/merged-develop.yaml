@@ -43,6 +43,17 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Check Env
+        run: |
+          echo "merged=${{ needs.check-merged.outputs.merged }}"
+          echo "GITHUB_REF=${{ github.ref }}"
+          echo "GITHUB_HEAD_REF=${{ github.head_ref }}"
+          echo "GITHUB_BASE_REF=${{ github.base_ref }}"
+          echo "GITHUB_EVENT_NAME=${{ github.event_name }}"
+          echo "GITHUB_EVENT_PATH=${{ github.event_path }}"
+          echo "PR BASE=${{ github.event.pull_request.base.ref }}"
+          echo "PR HEAD=${{ github.event.pull_request.head.ref }}"
+
       - name: Checkout
         uses: actions/checkout@v4
 
