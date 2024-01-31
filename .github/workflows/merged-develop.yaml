@@ -39,8 +39,17 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Logging
+        run: | 
+          echo "Version bumping"
+          echo "PR: ${{ github.event.pull_request.number }}"
+          echo "Target branch: ${{ github.event.pull_request.base.ref }}"
+          echo "Source branch: ${{ github.event.pull_request.head.ref }}"
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Version Bump
         uses:  phips28/gh-action-bump-version@master
