@@ -66,6 +66,7 @@ jobs:
           target-branch: develop
 
   deploy:
+    name: Deploy to develop by merged
     needs: version-bump
     runs-on: ubuntu-latest
     steps:

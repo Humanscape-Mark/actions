@@ -1,0 +1,13 @@
+name: Pushed to develop
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    name: Deploy to develop by push
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::debug::Deploying to develop"
