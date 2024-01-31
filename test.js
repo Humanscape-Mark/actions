@@ -1,2 +1,2 @@
 console.log('abbbccc');
-console.log('abbbccc');
+console.log('abㅁㄴㅇㅁㄴㅇㄴㅁbbccc');
