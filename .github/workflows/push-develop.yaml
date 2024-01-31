@@ -1,56 +1,16 @@
 name: Pushed to develop
 
 on:
-  pull_request:
+  push:
     branches:
       - develop
-    types: [closed]
 
 jobs:
-  check-merged:
+  check-pr:
     runs-on: ubuntu-22.04
-    outputs:
-      merged: ${{ steps.set-output.outputs.merged }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Check if merged
-        id: check-if-merged
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const pr = await github.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            });
-            return pr.data.merged;
-
-      - name: Set output
-        id: set-output
-        run: echo "merged=${{ steps.check-if-merged.outputs.result }}" >> $GITHUB_OUTPUT
-
-  version-bump:
-    runs-on: ubuntu-22.04
-    needs: check-merged
-    if : ${{ needs.check-merged.outputs.merged }}
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Version Bump
-        uses:  phips28/gh-action-bump-version@master
-        with:
-          tag-prefix: v
-          major-wording: release
-          minor-wording: feature,feat,add,new
-
-  deploy:
-    needs: version-bump
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "::debug::Deploying to develop"
+      - name: Check event
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
