@@ -1,0 +1,60 @@
+name: Merged to develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+
+jobs:
+  check-merged:
+    runs-on: ubuntu-22.04
+    outputs:
+      merged: ${{ steps.set-output.outputs.merged }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check if merged
+        id: check-if-merged
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            return pr.data.merged;
+
+      - name: Set output
+        id: set-output
+        run: echo "merged=${{ steps.check-if-merged.outputs.result }}" >> $GITHUB_OUTPUT
+
+      - name: Debug
+        if: ${{ steps.set-output.outputs.merged == 'false' }}
+        run: echo "::warning::Pull Request is not merged"
+
+  version-bump:
+    runs-on: ubuntu-22.04
+    needs: check-merged
+    if : ${{ needs.check-merged.outputs.merged == 'true'}}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Version Bump
+        uses:  phips28/gh-action-bump-version@master
+        with:
+          tag-prefix: v
+          major-wording: release
+          minor-wording: feature,feat,add,new
+
+  deploy:
+    needs: version-bump
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::debug::Deploying to develop"
