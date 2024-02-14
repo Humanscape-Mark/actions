@@ -21,7 +21,7 @@ jobs:
           git fetch --unshallow
           git checkout main
           git pull
-          git merge --no-ff develop -m "Merge develop to main"
+          git merge --no-ff origin/develop -m "Merge develop to main"
           git push
 
   version-bump:
