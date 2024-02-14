@@ -1,9 +1,7 @@
 name: Dispatch/Merge dev to main
 run-name: Merge / Version Bump / Release
 
-on:
-  push:
-    branches: main
+on: workflow_dispatch
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
