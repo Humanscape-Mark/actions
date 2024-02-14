@@ -18,12 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Merge dev to main
+      - name: Merge develop to main
         run: |
           git fetch --unshallow
           git checkout main
           git pull
-          git merge --no-ff dev -m "Merge dev to main"
+          git merge --no-ff develop -m "Merge develop to main"
           git push
 
   version-bump:
