@@ -1,0 +1,50 @@
+name: Dispatch/Merge dev to main
+run-name: Merge / Version Bump / Release
+
+on: workflow_dispatch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  merge:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Merge develop to main
+        run: |
+          git config --global user.name "GitHub Actions"
+          git fetch --unshallow
+          git checkout main
+          git pull
+          git merge --no-ff origin/develop -m "Merge develop to main"
+          git push
+
+  version-bump:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Version Bump
+        uses:  phips28/gh-action-bump-version@master
+        with:
+          tag-prefix: v
+          major-wording: release
+          minor-wording: feature,feat,add,new
+
+  release:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
