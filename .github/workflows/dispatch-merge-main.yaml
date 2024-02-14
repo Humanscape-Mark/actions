@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  merge:
+  merge_dev_to_main:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
@@ -26,6 +26,7 @@ jobs:
           git push
 
       - name: Version Bump
+        id: versionBump
         uses:  phips28/gh-action-bump-version@master
         with:
           tag-prefix: v
@@ -36,3 +37,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
+          name: ${{ steps.versionBump.outputs.newTag }}
+          tag_name: ${{ steps.versionBump.outputs.newTag }}
