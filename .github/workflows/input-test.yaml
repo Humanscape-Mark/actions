@@ -33,6 +33,7 @@ jobs:
           echo "US: ${{ inputs.us }}"
           echo "ID: ${{ inputs.id }}"
           echo "VN: ${{ inputs.vn }}"
+          echo "ref": ${{ github.ref }}
 
   mat-test:
     runs-on: ubuntu-latest
