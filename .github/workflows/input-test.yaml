@@ -35,6 +35,35 @@ jobs:
           echo "VN: ${{ inputs.vn }}"
           echo "ref": ${{ github.ref }}
 
+      - name: Create annotation if merge is skipped
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { owner, repo, number } = context.issue
+            const message = 'Skip merge'
+            const annotation = {
+              path: 'dispatch-merge-main.yaml',
+              start_line: 1,
+              end_line: 1,
+              start_column: 1,
+              end_column: 1,
+              annotation_level: 'notice',
+              message: message
+            }
+            github.rest.checks.create({
+              owner,
+              repo,
+              name: 'Merge check',
+              head_sha: github.sha,
+              status: 'completed',
+              conclusion: 'success',
+              output: {
+                title: 'Check merge',
+                summary: message,
+                annotations: [annotation]
+              }
+            })
+
   mat-test:
     runs-on: ubuntu-latest
     strategy:
