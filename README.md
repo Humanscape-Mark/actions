@@ -4,27 +4,25 @@
 
 ## **목차**
 - [개발환경](#개발-환경)
-- 개발 환경 세팅
+- [개발 환경 세팅](#개발-환경-세팅)
   - MacOS 패키지 관리
   - Framework
   - Node.js 버전 관리
   - IDE
   - Repository
-- 설치 방법
+- [설치 방법](#설치-방법)
   - 서버 실행 방법
   - 빌드 방법
-- Pull Request
+- [Pull Request](#pull-request)
   - dev
   - prod
-- Commit
-
-- 배포 방법
+- [Commit](#commit)
+- [배포 방법](#배포-방법)
   - 개발 배포
   - 운영 배포
   - Hot Fix
-- CI/CD
-
-- ENV
+- [CI/CD](#ci/cd)
+- [ENV](#env)
   - AWS Secret Manager
   - Github Environment secrets
   - Github Environment variables
@@ -183,7 +181,7 @@ npm run build
 </table>
 
 
-## **EVN**
+## **ENV**
 - 모든 환경변수는 Naming Rule에 따른 각 국가별 리전의 Secret Manager에 존재
 - Gitub actions에 필요한 기본 환경변수는 하기 목록별로 존재
   - Github Secrets
